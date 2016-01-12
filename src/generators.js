@@ -175,9 +175,10 @@ Promise.coroutine = function (generatorFunction, options) {
     if (typeof generatorFunction !== "function") {
         throw new TypeError(NOT_GENERATOR_ERROR);
     }
-    var yieldHandler = Object(options).yieldHandler;
+    var opts = Object(options);
+    var yieldHandler = opts.yieldHandler;
     var PromiseSpawn$ = PromiseSpawn;
-    var stack = new Error().stack;
+    var stack = typeof(opts.withStack)=='string'?opts.withStack:new Error().stack;
     return function () {
         var generator = generatorFunction.apply(this, arguments);
         var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,
